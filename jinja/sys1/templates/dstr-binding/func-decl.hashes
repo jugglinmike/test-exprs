@@ -1,0 +1,14 @@
+//# set path = 'language/statements/function'
+//# set name = 'function declaration'
+//# set es6id = 'pending'
+//# set info
+(pending)
+//# endset
+
+var callCount = 0;
+function f(/*# print elems */) {
+  //# print body
+  callCount = callCount + 1;
+};
+f(/*# print vals */);
+assert.sameValue(callCount, 1);

@@ -1,0 +1,9 @@
+Hello.
+
+eval(`2**15')
+
+format(`Result is %d', eval(`2**3'))
+
+define(`foo', `FOOOO $1 ??')
+
+foo(thefile)

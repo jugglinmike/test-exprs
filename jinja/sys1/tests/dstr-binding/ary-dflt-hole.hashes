@@ -1,0 +1,33 @@
+// This code is Copyright {{ year }} me
+//# set template = 'dstr-binding'
+//# set desc = 'Destructuring initializer with a "hole"'
+//# set info
+This is a bunch of spec reference. It may or may not span
+multiple
+lines.
+//# endset
+
+//# set region_elems
+[x = 23]
+//#- endset
+
+//#- set region_vals
+[,]
+//#- endset
+
+//#- set region_body
+assert.sameValue(x, 23);
+//# endset
+
+Alternative syntax:
+
+template: 'destr-binding';
+desc: 'Default value with a "hole"';
+
+elems: [x = 23]
+
+vals: [,]
+
+body: {
+assert.sameValue(x, 23);
+}
