@@ -60,7 +60,9 @@ class Test262Env(jinja2.Environment):
             ],
             trim_blocks=True,
             block_start_string='/*#',
-            block_end_string='*/')
+            block_end_string='*/',
+            variable_start_string='/*{',
+            variable_end_string='}*/')
 
 env = Test262Env()
 
@@ -70,7 +72,10 @@ with open(sys.argv[1]) as l:
 tmpl = env.from_string(src)
 
 context = dict()
-for x in dir(tmpl.module):
+def is_dunder(string):
+    return re.match('^__.*__$', string) != None
+
+for x in filter(lambda x: not is_dunder(x), dir(tmpl.module)):
     context[x] = getattr(tmpl.module, x)
 
 template_file_names = map(
@@ -81,18 +86,20 @@ template_file_names = map(
         )
     )
 
+frontmatter = """/*---
+description: /*{ desc }*/ (/*{ case.name }*/)
+es6id: /*{ case.es6id }*/
+info: >
+    /*{ case.info | indent }*/
+    /*{ info | indent }*/
+---*/"""
+
 for file_name in template_file_names:
-    with open(file_name) as template_src:
-        template = env.from_string(template_src.read())
-        test_file_name = template.module.path + '/' + sys.argv[1][6:-7] + '.js'
+    with open(file_name) as template_file:
+        case_source = template_file.read()
+        case_values = env.from_string(case_source).module
+        template = env.from_string(frontmatter + case_source)
+        test_file_name = case_values.path + '/' + sys.argv[1][6:-7] + '.js'
         print test_file_name
-        print '/*---'
-        print 'description: ' + tmpl.module.desc + ' (' + template.module.name + ')'
-        print 'es6id: ' + template.module.es6id
-        print 'info: >'
-        print '    ' + '\n    '.join(template.module.info.rstrip().split('\n'))
-        print ''
-        print '    ' + '\n    '.join(tmpl.module.info.rstrip().split('\n'))
-        print '---*/'
-        print template.render(context)
+        print template.render(case=case_values, **context)
         print '\n\n\n'
