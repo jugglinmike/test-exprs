@@ -91,18 +91,18 @@ def templates(directory):
 
 def expand(filename):
     env = Test262Env()
-    src = ''
-    with open(filename) as handle:
-        src = handle.read()
-    tmpl = env.from_string(src)
-
+    context = None
     output = []
-    for case_source in templates('templates/' + tmpl.module.template):
+
+    with open(filename) as handle:
+        context = env.from_string(handle.read()).module.__dict__
+
+    for case_source in templates('templates/' + context['template']):
         case_values = env.from_string(case_source).module
         template = env.from_string(frontmatter + case_source)
         output.append(dict(
             name = case_values.path + os.path.basename(filename[:-7]) + '.js',
-            source = template.render(case=case_values, **tmpl.module.__dict__)
+            source = template.render(case=case_values, **context)
         ))
 
     return output
