@@ -1,6 +1,6 @@
 // This code is Copyright {{ year }} me
-//# set template = 'dstr-binding'
-//# set desc = 'Destructuring initializer with a "hole"'
+//# template 'dstr-binding'
+//# desc 'Destructuring initializer with a "hole"'
 //# set info
 13.3.3.6 Runtime Semantics: IteratorBindingInitialization
 

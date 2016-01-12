@@ -1,6 +1,6 @@
-//# set path = 'language/statments/var'
-//# set name = '`var` statement'
-//# set es6id = '13.3.2.4'
+//# path 'language/statments/var'
+//# name '`var` statement'
+//# es6id '13.3.2.4'
 //# set info
 VariableDeclaration : BindingPattern Initializer
 

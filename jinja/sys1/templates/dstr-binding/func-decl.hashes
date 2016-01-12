@@ -1,6 +1,6 @@
-//# set path = 'language/statements/function'
-//# set name = 'function declaration'
-//# set es6id = '14.1.19'
+//# path 'language/statements/function'
+//# name 'function declaration'
+//# es6id '14.1.19'
 //# set info
 FunctionDeclaration :
     function BindingIdentifier ( FormalParameters ) { FunctionBody }

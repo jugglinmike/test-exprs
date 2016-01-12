@@ -53,19 +53,21 @@ class CaseExtension(Extension):
 
         return body
 
-# This is a broken mess
-# TODO: Fix it
 class TemplateExtension(Extension):
-    tags = set(['template', 'desc'])
+    tags = set(['template', 'desc', 'path', 'name', 'es6id'])
 
     def parse(self, parser):
         target = next(parser.stream)
-        lineno = target.lineno
-        thing = ''
+
+        value = ''
         while not parser.stream.current.test_any('block_end'):
-            thing += parser.stream.current.value
+            value += parser.stream.current.value
             parser.stream.next()
-        return nodes.Assign(target, nodes.Name(thing, 'store'), lineno=lineno)
+
+        return nodes.Assign(
+            nodes.Name(target.value, 'store'),
+            nodes.Const(value),
+            lineno=target.lineno)
 
 env = jinja2.Environment(
     optimized=False,
