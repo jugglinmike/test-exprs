@@ -45,7 +45,7 @@ class SetStatementExtension(Extension):
             lineno=target.lineno)
 
 class TemplateExtension(SetValueExtension):
-    tags = set(['template', 'desc', 'path', 'name', 'es6id'])
+    tags = set(['template', 'desc', 'path', 'name', 'es6id', 'negative'])
 
 class Template2Extension(SetStatementExtension):
     tags = set(['info'])
@@ -89,6 +89,9 @@ template_file_names = map(
 frontmatter = """/*---
 description: /*{ desc }*/ (/*{ case.name }*/)
 es6id: /*{ case.es6id }*/
+//# if negative
+negative: /*{ negative }*/
+//# endif
 info: >
     /*{ case.info | indent }*/
     /*{ info | indent }*/
