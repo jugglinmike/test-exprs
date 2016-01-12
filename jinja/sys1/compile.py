@@ -11,6 +11,9 @@ class RegionExtension(Extension):
 
         environment.extend(regions=dict())
 
+    def preprocess(self, text, name, filename):
+        return re.sub(r'//\s*#(.*)$', r'/*#\1 */', text, flags=re.MULTILINE)
+
     def parse(self, parser):
         next(parser.stream)
 
@@ -68,8 +71,8 @@ env = jinja2.Environment(
     optimized=False,
     extensions=[TemplateExtension, InsertExtension, RegionExtension, CaseExtension],
     block_start_string='/*#',
-    block_end_string='*/',
-    line_statement_prefix='//#')
+    trim_blocks=True,
+    block_end_string='*/')
 
 src = ''
 with open(sys.argv[1]) as l:
