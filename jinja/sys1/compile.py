@@ -64,20 +64,6 @@ class Test262Env(jinja2.Environment):
             variable_start_string='/*{',
             variable_end_string='}*/')
 
-env = Test262Env()
-
-src = ''
-with open(sys.argv[1]) as l:
-    src = l.read()
-tmpl = env.from_string(src)
-
-template_file_names = map(
-    lambda x: 'templates/' + tmpl.module.template + '/' + x,
-    filter(
-        lambda x: re.match('^[^\.].*\.hashes', x),
-        os.listdir('templates/' + tmpl.module.template)
-        )
-    )
 
 frontmatter = """/*---
 description: /*{ desc }*/ (/*{ case.name }*/)
@@ -91,16 +77,35 @@ info: >
 ---*/
 """
 
-output = []
-for file_name in template_file_names:
-    with open(file_name) as template_file:
-        case_source = template_file.read()
+def templates(directory):
+    file_names = map(
+        lambda x: directory + '/' + x,
+        filter(
+            lambda x: re.match('^[^\.].*\.hashes', x),
+            os.listdir(directory)
+            )
+        )
+    for file_name in file_names:
+        with open(file_name) as template_file:
+            yield template_file.read()
+
+def expand(filename):
+    env = Test262Env()
+    src = ''
+    with open(filename) as handle:
+        src = handle.read()
+    tmpl = env.from_string(src)
+
+    output = []
+    for case_source in templates('templates/' + tmpl.module.template):
         case_values = env.from_string(case_source).module
         template = env.from_string(frontmatter + case_source)
         output.append(dict(
-          name = case_values.path + os.path.basename(sys.argv[1][:-7]) + '.js',
-          source = template.render(case=case_values, **tmpl.module.__dict__)
+            name = case_values.path + os.path.basename(filename[:-7]) + '.js',
+            source = template.render(case=case_values, **tmpl.module.__dict__)
         ))
+
+    return output
 
 def print_test(test):
     print test['name']
@@ -115,6 +120,6 @@ def write_test(prefix, test):
     with open(location, 'w') as handle:
         handle.write(test['source'])
 
-for test in output:
+for test in expand(sys.argv[1]):
     print_test(test)
     #write_test('tmp', test)
