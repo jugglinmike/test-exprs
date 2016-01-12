@@ -1,0 +1,21 @@
+//# path 'language/expressions/function/dstr-'
+//# name 'function expression'
+//# es6id '14.1.20'
+//# info
+FunctionExpression : function ( FormalParameters ) { FunctionBody }
+
+    [...]
+    3. Let closure be FunctionCreate(Normal, FormalParameters, FunctionBody,
+       scope, strict).
+    [...]
+//# endinfo
+
+var callCount = 0;
+var f;
+f = function(/*{ elems }*/) {
+  /*{ body }*/
+  callCount = callCount + 1;
+};
+
+f(/*{ vals }*/);
+assert.sameValue(callCount, 1);

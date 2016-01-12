@@ -1,0 +1,21 @@
+//# path 'language/expressions/generators/dstr-'
+//# name 'function expression'
+//# es6id '14.4.14'
+//# info
+GeneratorExpression : function * ( FormalParameters ) { GeneratorBody }
+
+    [...]
+    3. Let closure be GeneratorFunctionCreate(Normal, FormalParameters,
+       GeneratorBody, scope, strict).
+    [...]
+//# endinfo
+
+var callCount = 0;
+var f;
+f = function*(/*{ elems }*/) {
+  /*{ body }*/
+  callCount = callCount + 1;
+};
+
+f().next(/*{ vals }*/);
+assert.sameValue(callCount, 1);
