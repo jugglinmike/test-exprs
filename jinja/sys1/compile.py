@@ -50,15 +50,19 @@ class TemplateExtension(SetValueExtension):
 class Template2Extension(SetStatementExtension):
     tags = set(['info'])
 
-env = jinja2.Environment(
-    optimized=False,
-    extensions=[
-        SingleLineExtension, TemplateExtension, Template2Extension,
-        RegionExtension
-    ],
-    trim_blocks=True,
-    block_start_string='/*#',
-    block_end_string='*/')
+class Test262Env(jinja2.Environment):
+    def __init__(self):
+        super(Test262Env, self).__init__(
+            optimized=False,
+            extensions=[
+                SingleLineExtension, TemplateExtension, Template2Extension,
+                RegionExtension
+            ],
+            trim_blocks=True,
+            block_start_string='/*#',
+            block_end_string='*/')
+
+env = Test262Env()
 
 src = ''
 with open(sys.argv[1]) as l:
