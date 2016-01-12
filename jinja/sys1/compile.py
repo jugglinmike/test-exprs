@@ -3,6 +3,14 @@ import jinja2
 from jinja2 import nodes
 from jinja2.ext import Extension
 
+class SingleLineExtension(Extension):
+    """Replace single-line delimiters with multi-line delimiters. Although
+    Jinja supports configuring token sequences for single-line blocks,
+    any whitespace preceeding such blocks is trimmed, making it inappropriate
+    for use here."""
+    def preprocess(self, text, name, filename):
+        return re.sub(r'//\s*#(.*)$', r'/*#\1 */', text, flags=re.MULTILINE)
+
 class RegionExtension(Extension):
     tags = set(['region'])
 
@@ -10,9 +18,6 @@ class RegionExtension(Extension):
         super(RegionExtension, self).__init__(environment)
 
         environment.extend(regions=dict())
-
-    def preprocess(self, text, name, filename):
-        return re.sub(r'//\s*#(.*)$', r'/*#\1 */', text, flags=re.MULTILINE)
 
     def parse(self, parser):
         next(parser.stream)
@@ -53,7 +58,7 @@ class TemplateExtension(Extension):
 
 env = jinja2.Environment(
     optimized=False,
-    extensions=[TemplateExtension, InsertExtension, RegionExtension],
+    extensions=[SingleLineExtension, TemplateExtension, InsertExtension, RegionExtension],
     trim_blocks=True,
     block_start_string='/*#',
     block_end_string='*/')
