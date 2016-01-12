@@ -71,13 +71,6 @@ with open(sys.argv[1]) as l:
     src = l.read()
 tmpl = env.from_string(src)
 
-context = dict()
-def is_dunder(string):
-    return re.match('^__.*__$', string) != None
-
-for x in filter(lambda x: not is_dunder(x), dir(tmpl.module)):
-    context[x] = getattr(tmpl.module, x)
-
 template_file_names = map(
     lambda x: 'templates/' + tmpl.module.template + '/' + x,
     filter(
@@ -106,7 +99,7 @@ for file_name in template_file_names:
         template = env.from_string(frontmatter + case_source)
         output.append(dict(
           name = case_values.path + os.path.basename(sys.argv[1][:-7]) + '.js',
-          source = template.render(case=case_values, **context)
+          source = template.render(case=case_values, **tmpl.module.__dict__)
         ))
 
 def print_test(test):
