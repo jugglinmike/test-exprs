@@ -14,21 +14,12 @@ class SingleLineExtension(Extension):
 class RegionExtension(Extension):
     tags = set(['region'])
 
-    def __init__(self, environment):
-        super(RegionExtension, self).__init__(environment)
-
-        environment.extend(regions=dict())
-
     def parse(self, parser):
-        next(parser.stream)
+        lineno = next(parser.stream).lineno
 
-        name = parser.parse_expression()
-
-        body = parser.parse_statements(['name:endregion'], drop_needle=True)
-
-        self.environment.regions[name.name] = body
-
-        return []
+        name = parser.parse_assign_target()
+        body = parser.parse_statements(('name:endregion',), drop_needle=True);
+        return nodes.AssignBlock(name, body, lineno=lineno)
 
 class InsertExtension(Extension):
     tags = set(['insert'])
@@ -67,9 +58,10 @@ src = ''
 with open(sys.argv[1]) as l:
     src = l.read()
 tmpl = env.from_string(src)
+
 context = dict()
-for x in filter(lambda x: x.startswith('region_'), dir(tmpl.module)):
-    context[x[7:]] = getattr(tmpl.module, x)
+for x in dir(tmpl.module):
+    context[x] = getattr(tmpl.module, x)
 
 template_file_names = map(
     lambda x: 'templates/' + tmpl.module.template + '/' + x,

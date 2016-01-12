@@ -15,17 +15,17 @@ SingleNameBinding : BindingIdentifier Initializeropt
 8. Return InitializeReferencedBinding(lhs, v).
 //# endset
 
-//# set region_elems
+//# region elems
 [x = 23]
-//#- endset
+//#- endregion
 
-//#- set region_vals
+//#- region vals
 [,]
-//#- endset
+//#- endregion
 
-//#- set region_body
+//#- region body
 assert.sameValue(x, 23);
-//# endset
+//# endregion
 
 Alternative syntax:
 
