@@ -99,7 +99,7 @@ for file_name in template_file_names:
         case_source = template_file.read()
         case_values = env.from_string(case_source).module
         template = env.from_string(frontmatter + case_source)
-        test_file_name = case_values.path + '/' + sys.argv[1][6:-7] + '.js'
+        test_file_name = case_values.path + os.path.basename(sys.argv[1][:-7]) + '.js'
         print test_file_name
         print template.render(case=case_values, **context)
         print '\n\n\n'

@@ -1,4 +1,4 @@
-//# path 'language/statements/function'
+//# path 'language/statements/function/dstr-'
 //# name 'function declaration'
 //# es6id '14.1.19'
 //# info
@@ -8,6 +8,7 @@ FunctionDeclaration :
     [...]
     3. Let F be FunctionCreate(Normal, FormalParameters, FunctionBody,
        scope, strict).
+    [...]
 //# endinfo
 
 var callCount = 0;
