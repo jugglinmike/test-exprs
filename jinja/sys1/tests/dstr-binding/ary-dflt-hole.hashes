@@ -1,4 +1,3 @@
-// This code is Copyright {{ year }} me
 //# template 'dstr-binding'
 //# desc 'Destructuring initializer with a "hole"'
 //# set info
@@ -26,16 +25,3 @@ SingleNameBinding : BindingIdentifier Initializeropt
 //# region body
 assert.sameValue(x, 23);
 //#- endregion
-
-Alternative syntax:
-
-template: 'destr-binding';
-desc: 'Default value with a "hole"';
-
-elems: [x = 23]
-
-vals: [,]
-
-body: {
-assert.sameValue(x, 23);
-}
