@@ -92,7 +92,8 @@ es6id: /*{ case.es6id }*/
 info: >
     /*{ case.info | indent }*/
     /*{ info | indent }*/
----*/"""
+---*/
+"""
 
 for file_name in template_file_names:
     with open(file_name) as template_file:

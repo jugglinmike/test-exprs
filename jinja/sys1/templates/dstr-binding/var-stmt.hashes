@@ -12,4 +12,5 @@ VariableDeclaration : BindingPattern Initializer
 //# endinfo
 
 var /*{ elems }*/ = /*{ vals }*/;
+
 /*{ body }*/
