@@ -54,8 +54,8 @@ class TemplateExtension(Extension):
 env = jinja2.Environment(
     optimized=False,
     extensions=[TemplateExtension, InsertExtension, RegionExtension],
-    block_start_string='/*#',
     trim_blocks=True,
+    block_start_string='/*#',
     block_end_string='*/')
 
 src = ''
