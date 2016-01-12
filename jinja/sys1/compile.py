@@ -97,6 +97,7 @@ for file_name in template_file_names:
         print test_file_name
         print '/*---'
         print 'description: ' + tmpl.module.desc + ' (' + template.module.name + ')'
+        print 'es6id: ' + template.module.es6id
         print 'info: >'
         print '    ' + '\n    '.join(template.module.info.rstrip().split('\n'))
         print ''

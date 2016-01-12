@@ -1,8 +1,13 @@
 //# set path = 'language/statements/function'
 //# set name = 'function declaration'
-//# set es6id = 'pending'
+//# set es6id = '14.1.19'
 //# set info
-(pending)
+FunctionDeclaration :
+    function BindingIdentifier ( FormalParameters ) { FunctionBody }
+
+    [...]
+    3. Let F be FunctionCreate(Normal, FormalParameters, FunctionBody,
+       scope, strict).
 //# endset
 
 var callCount = 0;
