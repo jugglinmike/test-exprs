@@ -1,6 +1,6 @@
 //# template 'dstr-binding'
 //# desc 'Destructuring initializer with a "hole"'
-//# set info
+//# info
 13.3.3.6 Runtime Semantics: IteratorBindingInitialization
 
 SingleNameBinding : BindingIdentifier Initializeropt
@@ -12,7 +12,7 @@ SingleNameBinding : BindingIdentifier Initializeropt
    [...]
 7. If environment is undefined, return PutValue(lhs, v).
 8. Return InitializeReferencedBinding(lhs, v).
-//# endset
+//# endinfo
 
 //# region elems
 [x = 23]
