@@ -22,5 +22,5 @@ var obj = {
   }
 };
 
-obj().next(/*{ vals }*/);
+obj.method().next(/*{ vals }*/);
 assert.sameValue(callCount, 1);
