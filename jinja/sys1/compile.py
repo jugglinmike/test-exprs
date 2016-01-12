@@ -77,17 +77,28 @@ info: >
 ---*/
 """
 
+def is_template_file(filename):
+  return re.match('^[^\.].*\.hashes', filename)
+
 def templates(directory):
     file_names = map(
         lambda x: directory + '/' + x,
-        filter(
-            lambda x: re.match('^[^\.].*\.hashes', x),
-            os.listdir(directory)
-            )
-        )
+        filter(is_template_file, os.listdir(directory))
+    )
+
     for file_name in file_names:
         with open(file_name) as template_file:
             yield template_file.read()
+
+def tests(directory):
+    for subdirectory, _, file_names in os.walk(directory):
+        file_names = map(
+            lambda x: os.path.join(subdirectory, x),
+            filter(is_template_file, file_names)
+        )
+
+        for file_name in file_names:
+            yield file_name
 
 def expand(filename):
     env = Test262Env()
@@ -120,6 +131,13 @@ def write_test(prefix, test):
     with open(location, 'w') as handle:
         handle.write(test['source'])
 
-for test in expand(sys.argv[1]):
-    print_test(test)
-    #write_test('tmp', test)
+# TODO: Improve naming
+if os.path.isdir(sys.argv[1]):
+    x = tests(sys.argv[1])
+else:
+    x = [sys.argv[1]]
+
+for y in x:
+    for test in expand(y):
+        print_test(test)
+        #write_test('tmp', test)
