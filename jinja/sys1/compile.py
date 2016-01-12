@@ -35,24 +35,6 @@ class InsertExtension(Extension):
 
         return self.environment.regions[name.name]
 
-class CaseExtension(Extension):
-    tags = set(['case'])
-
-    def parse(self, parser):
-        next(parser.stream)
-
-        thing = ''
-        while not parser.stream.current.test_any('block_end'):
-            thing += parser.stream.current.value
-            parser.stream.next()
-        #name = parser.parse_expression()
-        #print name
-
-        body = parser.parse_statements(['name:endcase'], drop_needle=True)
-        body.append(nodes.TemplateData('\n\n'))
-
-        return body
-
 class TemplateExtension(Extension):
     tags = set(['template', 'desc', 'path', 'name', 'es6id'])
 
@@ -71,7 +53,7 @@ class TemplateExtension(Extension):
 
 env = jinja2.Environment(
     optimized=False,
-    extensions=[TemplateExtension, InsertExtension, RegionExtension, CaseExtension],
+    extensions=[TemplateExtension, InsertExtension, RegionExtension],
     block_start_string='/*#',
     trim_blocks=True,
     block_end_string='*/')
