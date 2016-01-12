@@ -1,0 +1,20 @@
+//# path 'language/expressions/arrow-function/dstr-'
+//# name 'arrow function expression'
+//# es6id '14.2.16'
+//# info
+ArrowFunction : ArrowParameters => ConciseBody
+
+[...]
+4. Let closure be FunctionCreate(Arrow, parameters, ConciseBody, scope, strict).
+[...]
+//# endinfo
+
+var callCount = 0;
+var f;
+f = (/*{ elems }*/) => {
+  /*{ body }*/
+  callCount = callCount + 1;
+};
+
+f(/*{ vals }*/);
+assert.sameValue(callCount, 1);

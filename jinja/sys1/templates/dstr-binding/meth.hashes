@@ -1,0 +1,23 @@
+//# path 'language/expressions/object/dstr-meth-'
+//# name 'method'
+//# es6id '14.3.8'
+//# info
+MethodDefinition : PropertyName ( StrictFormalParameters ) { FunctionBody }
+
+[...]
+6. Let closure be FunctionCreate(kind, StrictFormalParameters, FunctionBody,
+   scope, strict). If functionPrototype was passed as a parameter then pass its
+   value as the functionPrototype optional argument of FunctionCreate.
+[...]
+//# endinfo
+
+var callCount = 0;
+var obj = {
+  method(/*{ elems }*/) {
+    /*{ body }*/
+    callCount = callCount + 1;
+  }
+};
+
+obj.method(/*{ vals }*/);
+assert.sameValue(callCount, 1);
