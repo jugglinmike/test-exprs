@@ -19,11 +19,11 @@ SingleNameBinding : BindingIdentifier Initializeropt
 [x = 23]
 //#- endregion
 
-//#- region vals
+//# region vals
 [,]
 //#- endregion
 
-//#- region body
+//# region body
 assert.sameValue(x, 23);
 //# endregion
 

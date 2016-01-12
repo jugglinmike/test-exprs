@@ -1,14 +1,14 @@
 //# path 'language/statements/function'
 //# name 'function declaration'
 //# es6id '14.1.19'
-//# set info
+//# info
 FunctionDeclaration :
     function BindingIdentifier ( FormalParameters ) { FunctionBody }
 
     [...]
     3. Let F be FunctionCreate(Normal, FormalParameters, FunctionBody,
        scope, strict).
-//# endset
+//# endinfo
 
 var callCount = 0;
 function f(/*# print elems */) {

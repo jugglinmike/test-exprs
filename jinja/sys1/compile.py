@@ -31,9 +31,7 @@ class InsertExtension(Extension):
 
         return self.environment.regions[name.name]
 
-class TemplateExtension(Extension):
-    tags = set(['template', 'desc', 'path', 'name', 'es6id'])
-
+class SetValueExtension(Extension):
     def parse(self, parser):
         target = next(parser.stream)
 
@@ -47,9 +45,24 @@ class TemplateExtension(Extension):
             nodes.Const(value),
             lineno=target.lineno)
 
+class SetStatementExtension(Extension):
+    def parse(self, parser):
+        target = next(parser.stream)
+        end_expr = 'name:end' + target.value
+        return nodes.AssignBlock(
+            nodes.Name(target.value, 'store'),
+            parser.parse_statements((end_expr,), drop_needle=True),
+            lineno=target.lineno)
+
+class TemplateExtension(SetValueExtension):
+    tags = set(['template', 'desc', 'path', 'name', 'es6id'])
+
+class Template2Extension(SetStatementExtension):
+    tags = set(['info'])
+
 env = jinja2.Environment(
     optimized=False,
-    extensions=[SingleLineExtension, TemplateExtension, InsertExtension, RegionExtension],
+    extensions=[SingleLineExtension, TemplateExtension, Template2Extension, InsertExtension, RegionExtension],
     trim_blocks=True,
     block_start_string='/*#',
     block_end_string='*/')

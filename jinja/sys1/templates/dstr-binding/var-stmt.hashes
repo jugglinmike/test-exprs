@@ -1,7 +1,7 @@
 //# path 'language/statments/var'
 //# name '`var` statement'
 //# es6id '13.3.2.4'
-//# set info
+//# info
 VariableDeclaration : BindingPattern Initializer
 
 1. Let rhs be the result of evaluating Initializer.
@@ -9,7 +9,7 @@ VariableDeclaration : BindingPattern Initializer
 3. ReturnIfAbrupt(rval).
 4. Return the result of performing BindingInitialization for
    BindingPattern passing rval and undefined as arguments.
-//# endset
+//# endinfo
 
 var /*# print elems */ = /*# print vals */;
 //# print body
