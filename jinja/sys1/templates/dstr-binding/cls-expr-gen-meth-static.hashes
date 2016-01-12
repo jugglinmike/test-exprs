@@ -1,5 +1,5 @@
 //# path 'language/expressions/class/dstr-gen-meth-static-'
-//# name 'static class expression method'
+//# name 'static class expression generator method'
 //# es6id '14.5.16'
 //# info
 ClassExpression : class BindingIdentifieropt ClassTail
