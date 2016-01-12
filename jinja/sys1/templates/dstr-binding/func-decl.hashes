@@ -11,9 +11,9 @@ FunctionDeclaration :
 //# endinfo
 
 var callCount = 0;
-function f(/*# print elems */) {
-  //# print body
+function f(/*{ elems }*/) {
+  /*{ body }*/
   callCount = callCount + 1;
 };
-f(/*# print vals */);
+f(/*{ vals }*/);
 assert.sameValue(callCount, 1);

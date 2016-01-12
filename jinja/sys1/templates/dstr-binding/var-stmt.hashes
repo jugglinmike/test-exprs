@@ -11,5 +11,5 @@ VariableDeclaration : BindingPattern Initializer
    BindingPattern passing rval and undefined as arguments.
 //# endinfo
 
-var /*# print elems */ = /*# print vals */;
-//# print body
+var /*{ elems }*/ = /*{ vals }*/;
+/*{ body }*/

@@ -16,11 +16,11 @@ GeneratorMethod : * PropertyName ( StrictFormalParameters ) { GeneratorBody }
 
 var callCount = 0;
 var obj = {
-  *method(/*# print elems */) {
-    //# print body
+  *method(/*{ elems }*/) {
+    /*{ body }*/
     callCount = callCount + 1;
   }
 };
 
-obj().next(/*# print vals */);
+obj().next(/*{ vals }*/);
 assert.sameValue(callCount, 1);
