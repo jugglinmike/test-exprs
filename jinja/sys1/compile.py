@@ -98,12 +98,30 @@ info: >
 ---*/
 """
 
+output = []
 for file_name in template_file_names:
     with open(file_name) as template_file:
         case_source = template_file.read()
         case_values = env.from_string(case_source).module
         template = env.from_string(frontmatter + case_source)
-        test_file_name = case_values.path + os.path.basename(sys.argv[1][:-7]) + '.js'
-        print test_file_name
-        print template.render(case=case_values, **context)
-        print '\n\n\n'
+        output.append(dict(
+          name = case_values.path + os.path.basename(sys.argv[1][:-7]) + '.js',
+          source = template.render(case=case_values, **context)
+        ))
+
+def print_test(test):
+    print test['name']
+    print test['source']
+    print '\n\n\n'
+
+def write_test(prefix, test):
+    location = prefix + '/' + test['name']
+    path = os.path.dirname(location)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    with open(location, 'w') as handle:
+        handle.write(test['source'])
+
+for test in output:
+    print_test(test)
+    #write_test('tmp', test)
