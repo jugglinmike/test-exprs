@@ -21,16 +21,6 @@ class RegionExtension(Extension):
         body = parser.parse_statements(('name:endregion',), drop_needle=True);
         return nodes.AssignBlock(name, body, lineno=lineno)
 
-class InsertExtension(Extension):
-    tags = set(['insert'])
-
-    def parse(self, parser):
-        next(parser.stream)
-
-        name = parser.parse_expression()
-
-        return self.environment.regions[name.name]
-
 class SetValueExtension(Extension):
     def parse(self, parser):
         target = next(parser.stream)
@@ -62,7 +52,10 @@ class Template2Extension(SetStatementExtension):
 
 env = jinja2.Environment(
     optimized=False,
-    extensions=[SingleLineExtension, TemplateExtension, Template2Extension, InsertExtension, RegionExtension],
+    extensions=[
+        SingleLineExtension, TemplateExtension, Template2Extension,
+        RegionExtension
+    ],
     trim_blocks=True,
     block_start_string='/*#',
     block_end_string='*/')
