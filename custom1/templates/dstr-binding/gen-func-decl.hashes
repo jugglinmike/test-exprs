@@ -1,0 +1,20 @@
+/*---
+path: language/statements/generators/dstr-
+name: generator function declaration
+es6id: 14.4.12
+info: >
+    GeneratorDeclaration : function * ( FormalParameters ) { GeneratorBody }
+
+        [...]
+        2. Let F be GeneratorFunctionCreate(Normal, FormalParameters,
+           GeneratorBody, scope, strict).
+        [...]
+---*/
+
+var callCount = 0;
+function* f(/*{ elems }*/) {
+  /*{ body }*/
+  callCount = callCount + 1;
+};
+f().next(/*{ vals }*/);
+assert.sameValue(callCount, 1);

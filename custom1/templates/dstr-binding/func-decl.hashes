@@ -1,0 +1,21 @@
+/*---
+path: language/statements/function/dstr-
+name: function declaration
+es6id: 14.1.19
+info: >
+    FunctionDeclaration :
+        function BindingIdentifier ( FormalParameters ) { FunctionBody }
+
+        [...]
+        3. Let F be FunctionCreate(Normal, FormalParameters, FunctionBody,
+           scope, strict).
+        [...]
+---*/
+
+var callCount = 0;
+function f(/*{ elems }*/) {
+  /*{ body }*/
+  callCount = callCount + 1;
+};
+f(/*{ vals }*/);
+assert.sameValue(callCount, 1);
