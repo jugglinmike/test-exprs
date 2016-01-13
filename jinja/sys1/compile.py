@@ -1,4 +1,5 @@
 import sys, os, re
+import yaml
 import jinja2
 from jinja2 import nodes
 from jinja2.ext import Extension
@@ -35,6 +36,20 @@ class SetValueExtension(Extension):
             nodes.Const(value),
             lineno=target.lineno)
 
+class YamlExtension(Extension):
+    tags = set(['yaml'])
+
+    def preprocess(self, source, name, filename):
+        return re.sub(r'/\*---', '/*# yaml */', re.sub(r'---\*/', '/*# endyaml */', source))
+
+    def parse(self, parser):
+        lineno = next(parser.stream).lineno
+        body = parser.parse_statements(('name:endyaml',), drop_needle=True)
+        ret = []
+        for key, value in yaml.safe_load(body[0].nodes[0].data).iteritems():
+            ret.append(nodes.Assign(nodes.Name(key, 'store'), nodes.Const(value), lineno=lineno))
+        return ret
+
 class SetStatementExtension(Extension):
     def parse(self, parser):
         target = next(parser.stream)
@@ -55,8 +70,7 @@ class Test262Env(jinja2.Environment):
         super(Test262Env, self).__init__(
             optimized=False,
             extensions=[
-                SingleLineExtension, TemplateExtension, Template2Extension,
-                RegionExtension
+                SingleLineExtension, TemplateExtension, Template2Extension
             ],
             trim_blocks=True,
             block_start_string='/*#',
@@ -64,6 +78,20 @@ class Test262Env(jinja2.Environment):
             variable_start_string='/*{',
             variable_end_string='}*/')
 
+def read_case(source):
+    env = jinja2.Environment(
+        optimized=False,
+        extensions=[
+            SingleLineExtension, TemplateExtension, Template2Extension,
+            RegionExtension, YamlExtension
+        ],
+        trim_blocks=True,
+        block_start_string='/*#',
+        block_end_string='*/',
+        variable_start_string='/*{',
+        variable_end_string='}*/')
+
+    return env.from_string(source).module.__dict__
 
 frontmatter = """// This file was procedurally generated from the following sources:
 // - /*{ sources|join('\n// - ') }*/
@@ -109,7 +137,7 @@ def expand(filename):
     output = []
 
     with open(filename) as handle:
-        context = env.from_string(handle.read()).module.__dict__
+        context = read_case(handle.read())
 
     for case_filename, case_source in cases('templates/' + context['template']):
         case_values = env.from_string(case_source).module

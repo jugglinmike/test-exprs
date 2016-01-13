@@ -1,14 +1,15 @@
-//# template 'dstr-binding'
-//# desc 'Rest element followed by an invalid element'
-//# negative SyntaxError
-//# info
-13.3.3 Destructuring Binding Patterns
+/*---
+template: 'dstr-binding'
+desc: 'Rest element followed by an invalid element'
+negative: SyntaxError
+info: >
+    13.3.3 Destructuring Binding Patterns
 
-ArrayBindingPattern[Yield] :
-    [ Elisionopt BindingRestElement[?Yield]opt ]
-    [ BindingElementList[?Yield] ]
-    [ BindingElementList[?Yield] , Elisionopt BindingRestElement[?Yield]opt ]
-//# endinfo
+    ArrayBindingPattern[Yield] :
+        [ Elisionopt BindingRestElement[?Yield]opt ]
+        [ BindingElementList[?Yield] ]
+        [ BindingElementList[?Yield] , Elisionopt BindingRestElement[?Yield]opt ]
+---*/
 
 //# region elems
 [...x, y]
