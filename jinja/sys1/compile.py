@@ -75,6 +75,7 @@ negative: /*{ negative }*/
 //# endif
 info: >
     /*{ case.info | indent }*/
+
     /*{ info | indent }*/
 ---*/
 """
