@@ -1,5 +1,5 @@
 //# path 'language/expressions/generators/dstr-'
-//# name 'function expression'
+//# name 'generator function expression'
 //# es6id '14.4.14'
 //# info
 GeneratorExpression : function * ( FormalParameters ) { GeneratorBody }
