@@ -65,7 +65,9 @@ class Test262Env(jinja2.Environment):
             variable_end_string='}*/')
 
 
-frontmatter = """/*---
+frontmatter = """// This file was procedurally generated from the following sources:
+// - /*{ sources|join('\n// - ') }*/
+/*---
 description: /*{ desc }*/ (/*{ case.name }*/)
 es6id: /*{ case.es6id }*/
 //# if negative
@@ -80,7 +82,7 @@ info: >
 def is_template_file(filename):
   return re.match('^[^\.].*\.hashes', filename)
 
-def templates(directory):
+def cases(directory):
     file_names = map(
         lambda x: directory + '/' + x,
         filter(is_template_file, os.listdir(directory))
@@ -88,7 +90,7 @@ def templates(directory):
 
     for file_name in file_names:
         with open(file_name) as template_file:
-            yield template_file.read()
+            yield (file_name, template_file.read())
 
 def tests(directory):
     for subdirectory, _, file_names in os.walk(directory):
@@ -108,12 +110,12 @@ def expand(filename):
     with open(filename) as handle:
         context = env.from_string(handle.read()).module.__dict__
 
-    for case_source in templates('templates/' + context['template']):
+    for case_filename, case_source in cases('templates/' + context['template']):
         case_values = env.from_string(case_source).module
         template = env.from_string(frontmatter + case_source)
         output.append(dict(
             name = case_values.path + os.path.basename(filename[:-7]) + '.js',
-            source = template.render(case=case_values, **context)
+            source = template.render(case=case_values, sources=[filename, case_filename], **context)
         ))
 
     return output
