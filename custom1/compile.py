@@ -170,7 +170,9 @@ def expand(filename):
     with open(filename) as handle:
         case_values = read_case(handle.read())
 
-    for form_filename, form_source in forms('templates/' + case_values['meta']['template']):
+    form_location = os.path.join('src', 'forms', case_values['meta']['template'])
+
+    for form_filename, form_source in forms(form_location):
         form_values = read_case(form_source)
         output.append(dict(
             name = form_values['meta']['path'] + os.path.basename(filename[:-7]) + '.js',
