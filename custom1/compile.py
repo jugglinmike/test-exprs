@@ -5,6 +5,7 @@ yamlPattern = re.compile(r'\---((?:\s|\S)*)\---', flags=re.DOTALL|re.MULTILINE)
 regionStartPattern = re.compile(r'\s*#\s*region\s+(\S+)\s*{')
 regionEndPattern = re.compile(r'\s*}')
 interpolatePattern = re.compile(r'\{\s*(\S+)\s*\}')
+indentPattern = re.compile(r'^(\s*)')
 
 def find_comments(source):
     in_string = False
@@ -80,10 +81,14 @@ def read_case(source):
 
 def expand_regions(source, context):
     replacements = []
+    lines = source.split('\n')
+
     for comment in find_comments(source):
         match = yamlPattern.match(comment['source'])
         if match:
             replacements.insert(0, dict(value='', **comment))
+            continue
+
         match = interpolatePattern.match(comment['source'])
 
         if match == None:
@@ -92,7 +97,9 @@ def expand_regions(source, context):
         replacements.insert(0, dict(value=value, **comment))
 
     for replacement in replacements:
-        source = source[:replacement['firstchar']] + replacement['value'] + \
+        indent = indentPattern.match(lines[replacement['lineno']])
+        source = source[:replacement['firstchar']] + \
+            ('\n' + indent.group(1)).join(replacement['value'].split('\n')) + \
             source[replacement['lastchar']:]
     return source
 
