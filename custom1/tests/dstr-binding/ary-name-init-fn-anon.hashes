@@ -1,5 +1,5 @@
 /*---
-desc: Destructuring initializer with a "hole"
+desc: SingleNameBinding assigns inferred name to anonymous functions
 template: dstr-binding
 info: >
     13.3.3.6 Runtime Semantics: IteratorBindingInitialization
@@ -10,19 +10,24 @@ info: >
     6. If Initializer is present and v is undefined, then
        a. Let defaultValue be the result of evaluating Initializer.
        b. Let v be GetValue(defaultValue).
-       [...]
+       c. ReturnIfAbrupt(v).
+       d. If IsAnonymousFunctionDefinition(Initializer) is true, then
+          i. Let hasNameProperty be HasOwnProperty(v, "name").
+          ii. ReturnIfAbrupt(hasNameProperty).
+          iii. If hasNameProperty is false, perform SetFunctionName(v,
+               bindingId).
     7. If environment is undefined, return PutValue(lhs, v).
     8. Return InitializeReferencedBinding(lhs, v).
 ---*/
 
 //# region elems {
-[x = 23]
+[x = function() {}]
 // }
 
 //# region vals {
-[,]
+[]
 // }
 
 //# region body {
-assert.sameValue(x, 23);
+assert.sameValue(x.name, 'x');
 // }
