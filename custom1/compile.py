@@ -189,7 +189,7 @@ def print_test(test):
     print '\n'
 
 def write_test(prefix, test):
-    location = prefix + '/' + test['name']
+    location = os.path.join(prefix, test['name'])
     path = os.path.dirname(location)
     if not os.path.exists(path):
         os.makedirs(path)
