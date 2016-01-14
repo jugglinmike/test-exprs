@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+import argparse
 import sys, os, re
 import yaml
 
@@ -97,9 +99,9 @@ def expand_regions(source, context):
         replacements.insert(0, dict(value=value, **comment))
 
     for replacement in replacements:
-        indent = indentPattern.match(lines[replacement['lineno']])
+        whitespace = indentPattern.match(lines[replacement['lineno']]).group(1)
         source = source[:replacement['firstchar']] + \
-            ('\n' + indent.group(1)).join(replacement['value'].split('\n')) + \
+            indent(replacement['value'], whitespace).lstrip() + \
             source[replacement['lastchar']:]
     return source
 
@@ -178,9 +180,13 @@ def expand(filename):
     return output
 
 def print_test(test):
-    print test['name']
+    print '/**'
+    print ' * ----------------------------------------------------------------'
+    print ' * ' + test['name']
+    print ' * ----------------------------------------------------------------'
+    print ' */'
     print test['source']
-    print '\n\n\n'
+    print '\n'
 
 def write_test(prefix, test):
     location = prefix + '/' + test['name']
@@ -190,13 +196,21 @@ def write_test(prefix, test):
     with open(location, 'w') as handle:
         handle.write(test['source'])
 
-# TODO: Improve naming
-if os.path.isdir(sys.argv[1]):
-    x = tests(sys.argv[1])
-else:
-    x = [sys.argv[1]]
+parser = argparse.ArgumentParser(description="foobar")
+parser.add_argument('-o', '--out', help='''The directory to write the
+    compiled tests. If unspecified, tests will be written to standard out.''')
+parser.add_argument('cases', help='''Test cases to generate. May be a file or a
+    directory.''')
+args = parser.parse_args()
 
-for y in x:
-    for test in expand(y):
-        print_test(test)
-        #write_test('tmp', test)
+if os.path.isdir(args.cases):
+    cases = tests(args.cases)
+else:
+    cases = [args.cases]
+
+for case in cases:
+    for test in expand(case):
+        if args.out:
+            write_test(args.out, test)
+        else:
+            print_test(test)
