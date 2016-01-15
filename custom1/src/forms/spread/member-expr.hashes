@@ -1,6 +1,6 @@
 /*---
 path: language/expressions/new/spread-
-name: Spread operator in argument list of `new` operator applied to a MemberExpression
+name: (`new` operator)
 es6id: 12.3.3.1
 info: >
     MemberExpression : new MemberExpression Arguments

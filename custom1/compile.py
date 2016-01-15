@@ -127,6 +127,9 @@ def frontmatter(case_values, form_values, sources):
         'es6id: ' + form_values['meta']['es6id']
     ]
 
+    if case_values['meta'].get('features'):
+        lines += ['features: ' + yaml.dump(case_values['meta'].get('features'))]
+
     if case_values['meta'].get('negative'):
         lines += ['negative: ' + case_values['meta'].get('negative')]
 
