@@ -2,6 +2,7 @@
 import argparse
 import sys, os, re
 import yaml
+import codecs
 
 yamlPattern = re.compile(r'\---((?:\s|\S)*)\---', flags=re.DOTALL|re.MULTILINE)
 regionStartPattern = re.compile(r'\s*#\s*region\s+(\S+)\s*{')
@@ -198,7 +199,7 @@ def write_test(prefix, test):
     path = os.path.dirname(location)
     if not os.path.exists(path):
         os.makedirs(path)
-    with open(location, 'w') as handle:
+    with codecs.open(location, 'w', 'utf-8') as handle:
         handle.write(test['source'])
 
 parser = argparse.ArgumentParser(description="foobar")
