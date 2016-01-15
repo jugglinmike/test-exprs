@@ -1,7 +1,7 @@
 /*---
 desc: Destructuring initializer with an undefined value
 template: dstr-binding
-info: >
+info: |
     13.3.3.6 Runtime Semantics: IteratorBindingInitialization
 
     SingleNameBinding : BindingIdentifier Initializeropt

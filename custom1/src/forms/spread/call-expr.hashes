@@ -2,7 +2,7 @@
 path: language/expressions/call/spread-
 name: CallExpression
 es6id: 12.3.4.1
-info: >
+info: |
     CallExpression : MemberExpression Arguments
 
     [...]

@@ -2,7 +2,7 @@
 path: language/statements/function/dstr-
 name: function declaration
 es6id: 14.1.19
-info: >
+info: |
     FunctionDeclaration :
         function BindingIdentifier ( FormalParameters ) { FunctionBody }
 

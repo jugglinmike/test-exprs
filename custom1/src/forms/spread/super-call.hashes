@@ -2,7 +2,7 @@
 path: language/expression/super/spread-
 name: SuperCall
 es6id: 12.3.5.1
-info: >
+info: |
     SuperCall : super Arguments
 
     1. Let newTarget be GetNewTarget().

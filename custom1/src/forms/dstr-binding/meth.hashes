@@ -2,7 +2,7 @@
 path: language/expressions/object/dstr-meth-
 name: method
 es6id: 14.3.8
-info: >
+info: |
     MethodDefinition : PropertyName ( StrictFormalParameters ) { FunctionBody }
 
     [...]

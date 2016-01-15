@@ -1,7 +1,7 @@
 /*---
 desc: SingleNameBinding when value iteration was completed previously
 template: dstr-binding
-info: >
+info: |
     13.3.3.6 Runtime Semantics: IteratorBindingInitialization
 
     SingleNameBinding : BindingIdentifier Initializeropt

@@ -3,7 +3,7 @@ path: language/statements/variable/dstr-
 name: >
     `var` statement
 es6id: 13.3.2.4
-info: >
+info: |
     VariableDeclaration : BindingPattern Initializer
 
     1. Let rhs be the result of evaluating Initializer.
