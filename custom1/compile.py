@@ -4,7 +4,7 @@ import sys, os, re
 import yaml
 import codecs
 
-yamlPattern = re.compile(r'\---((?:\s|\S)*)\---', flags=re.DOTALL|re.MULTILINE)
+yamlPattern = re.compile(r'\---[\n\s]*((?:\s|\S)*)[\n\s*]---', flags=re.DOTALL|re.MULTILINE)
 regionStartPattern = re.compile(r'\s*#\s*region\s+(\S+)\s*{')
 regionEndPattern = re.compile(r'\s*}')
 interpolatePattern = re.compile(r'\{\s*(\S+)\s*\}')
