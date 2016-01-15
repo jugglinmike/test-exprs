@@ -104,6 +104,11 @@ def expand_regions(source, context):
         source = source[:replacement['firstchar']] + \
             indent(replacement['value'], whitespace).lstrip() + \
             source[replacement['lastchar']:]
+    setup = context['regions'].get('setup')
+
+    if setup:
+        source = setup + '\n' + source
+
     return source
 
 def indent(text, prefix = '    '):
@@ -180,7 +185,7 @@ def expand(filename):
         form_values = read_case(form_source)
         output.append(dict(
             name = form_values['meta']['path'] + os.path.basename(filename[:-7]) + '.js',
-            source = frontmatter(case_values, form_values, [filename, form_filename]) + expand_regions(form_source, case_values)
+            source = frontmatter(case_values, form_values, [filename, form_filename]) + '\n' + expand_regions(form_source, case_values)
         ))
 
     return output
